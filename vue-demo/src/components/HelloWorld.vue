@@ -1,5 +1,10 @@
 <template>
   <div class="hello">
+    <div>
+      <button @click="fatherClick()">父组件传递给组件的值{{ count }}</button>
+      <span>子组件传过来的值{{ list }}</span>
+    </div>
+    <child :num="count" @submit="aa"></child>
     <el-upload
       drag
       multiple
@@ -21,16 +26,31 @@
 </template>
 
 <script>
+import child from "./child";
 export default {
   name: "HelloWorld",
+  components: {
+    child
+  },
   data() {
     return {
       fileList: [],
       fileName: "",
-      visible: false
+      visible: false,
+      count: "0",
+      list: ""
     };
   },
   methods: {
+    fatherClick() {
+      this.count++;
+      console.log(this.count, "count");
+    },
+    aa(value) {
+      console.log(value, "val");
+      this.list = value;
+      // console.log(this.list, "list");
+    },
     //uploadchange 事件
     uploadChange(file, fileList) {
       this.fileList = fileList;
